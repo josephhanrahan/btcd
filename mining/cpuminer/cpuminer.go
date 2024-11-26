@@ -449,6 +449,7 @@ func (m *CPUMiner) Start() {
 
 	m.started = true
 	log.Infof("CPU miner started")
+	fmt.Print("CPU miner started")
 }
 
 // Stop gracefully stops the mining process by signalling all workers, and the
@@ -462,7 +463,16 @@ func (m *CPUMiner) Stop() {
 
 	// Nothing to do if the miner is not currently running or if running in
 	// discrete mode (using GenerateNBlocks).
-	if !m.started || m.discreteMining {
+	if m.discreteMining {
+		fmt.Print("Stopping Mining\n")
+		close(m.speedMonitorQuit)
+		m.wg.Wait()
+		m.started = false
+		m.discreteMining = false
+		fmt.Print("Stopped Mining\n")
+		return
+	}
+	if !m.started {
 		return
 	}
 
@@ -470,6 +480,7 @@ func (m *CPUMiner) Stop() {
 	m.wg.Wait()
 	m.started = false
 	log.Infof("CPU miner stopped")
+	fmt.Print("Miner stopped actually this time")
 }
 
 // IsMining returns whether or not the CPU miner has been started and is

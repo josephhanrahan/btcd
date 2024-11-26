@@ -926,6 +926,7 @@ func handleGenerate(s *rpcServer, cmd interface{}, closeChan <-chan struct{}) (i
 	reply := make([]string, c.NumBlocks)
 
 	blockHashes, err := s.cfg.CPUMiner.GenerateNBlocks(c.NumBlocks)
+	// blockHashes, err := s.cfg.CPUMiner.Start()
 	if err != nil {
 		return nil, &btcjson.RPCError{
 			Code:    btcjson.ErrRPCInternal.Code,
@@ -3543,6 +3544,7 @@ func handleSetGenerate(s *rpcServer, cmd interface{}, closeChan <-chan struct{})
 
 	if !generate {
 		s.cfg.CPUMiner.Stop()
+		// fmt.Println("STOPPED MINING")
 	} else {
 		// Respond with an error if there are no addresses to pay the
 		// created blocks to.
