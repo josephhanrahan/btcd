@@ -480,7 +480,7 @@ func (m *CPUMiner) Stop() {
 	m.wg.Wait()
 	m.started = false
 	log.Infof("CPU miner stopped")
-	fmt.Print("Miner stopped actually this time")
+	// fmt.Print("Miner stopped actually this time")
 }
 
 // IsMining returns whether or not the CPU miner has been started and is
